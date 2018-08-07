@@ -1,0 +1,199 @@
+T第四章
+
+SHOW 语句：
+show databases;   展示数据库
+use DataBase;     打开某个数据库
+
+
+show tables;              查看现有表        
+show columns from Table;  查看表内容，包括：字段、数据类型，键等相关信息
+
+
+show status;     显示服务器状态信息
+show grants;     显示授予用户
+show errors;     显示服务器错误
+show warnings;   显示警告信息
+
+
+SELECT 语句：
+select prod_name from products;                       检索单列
+select prod_id,prod_name,prod_price from products;    检索多个列
+select * from products;                               检索所有列
+
+
+关键字：distinct                                    选择添加的参数，返回不同的值
+select distinct prod_name from products;    检索不同的行
+
+
+关键字：limit                                       限制展示的最大行数
+select prod_name from products limit n;             限制展示结果，不多于n行
+select prod_name from products limit m,n;           限制展示结果，从行m开始的n行
+select prod_name from products limit n offset m;    限制展示结果，从行m开始的n行
+
+
+select products.prod_name from crashcourse.products;    使用完全限定表名，列名
+
+
+第五章 排序检索数据
+
+select prod_name from products order by prod_name;                                  按单列排序
+select prod_id,prod_price,prod_name from products order by prod_price,prod_name;    按多个列排序
+select prod_id,prod_price,prod_name from products order by prod_price desc;         降序排序（DESC是降序，要降序排列，需对每一个属性添加DESC）
+（关键字：desc）
+
+
+第六章 过滤数据
+
+select prod_name,prod_price
+from products
+where prod_pice=2.5;        使用where过滤数据，order by 应放于where之后
+（关键字：where）
+
+
+select prod_name
+from products
+where prod_price is null;    空值检查（关键字：is null)
+
+
+第七章 数据过滤
+
+select prod_id,prod_price,prod_name
+from products
+where vend_id = 1003 AND prod_price between 5 and 10;    并且（关键字：AND）
+
+
+select prod_id,prod_price,prod_name
+from products
+where vend_id = 1003 OR vend_id;    或者（关键字：OR）(注：AND的优先级高于OR）
+
+
+select prod_id,prod_price,prod_name
+from products
+where vend_id IN (m,n);    在m到n的范围内（关键字：IN）
+
+
+select prod_id,prod_price,prod_name
+from products
+where vend_id NOT in (m,n);    在m到n的范围外（关键字：not）（注：mysql支持not对in，between，exists取反，不同的数据库系统，not取反有很大差异）
+
+
+第八章 用通配符进行过滤
+
+select prod_id,prod_price,prod_name
+from products
+where prod_name LIKE 'jet%';   （关键字：LIKE）（通配符：%。%表示任何字符出现任意次数）
+
+
+通配符：
+% : 表示任何字符出现任意次数
+_ : 只匹配单个字符而不是多个字符
+
+
+第九章 正则表达式进行搜索
+
+select prod_id,prod_price,prod_name
+from products
+where prod_name REGEXP '1000';    （关键字：REGEXP。表示正则匹配，该关键字后可跟正则表达式）
+
+
+注1：正则表达式使用单个反斜杠转义特殊字符，mysql要求两个反斜杠（mysql解释一个，正则表达式库解释另一个）
+
+
+注2：like 和 regexp 的区别在于，like 是一行参数完全匹配，regexp 是部分参数模糊匹配。
+
+
+第十章 创建计算字段
+
+select concat( vend_name , '(' , vend_country , ')' )
+from vendors
+order by vend_name;    关键字：concat()函数。（拼接：concatenate）
+
+
+select concat( vend_name , '(' , vend_country , ')' ) AS vend_title
+from vendors
+order by vend_name;    关键字：AS。（别名：alias）
+
+
+select prod_id , quantity , item_price , quantity*item_price AS expanded_price
+from orderitems
+where order_num = 2005;    逗号会作为运算隔断。
+
+
+函数：
+Concat() : 拼接字符函数
+Trim()   : 去掉串两边的空格
+RTrim()  : 去掉串右边的空格
+LTrim()  : 去掉串左边的空格
+AS       : 取别名
+
+
+第十一章 数据处理函数
+
+Upper()     : 把数据字符变成大写；
+Left()      : 返回串左边的字符；
+Length()    : 返回串的长度；
+Locate()    : 找出串的一个子串；
+Lower()     : 将串转换为小写；
+Right()     : 返回串右边字符；
+Soundex()   : 返回串的SOUNDEX值,用于查找发音类似的数据；
+SubString() : 返回子串的字符；
+。。。。。。。。。。。。。。
+
+
+select cust_name , cust_contact
+from customers
+where Soundex(cust_contact) = Soundex('Y Lie');    关键字：Soundex
+
+
+第十二章 汇总数据
+
+SQL聚集函数
+AVG()   : 返回某列的平均值
+COUNT() : 返回某列的行数
+MAX()   : 返回某列的最大值
+MIN()   : 返回某列的最小值
+SUM()   : 返回某列值的和
+
+
+第十三章 分组数据
+
+创建分组
+select vend_id ,count(*) AS num_prods
+from products
+GROUP BY vend_id;    关键字：GROUP BY。注：必须放于where之后
+
+
+ROLLUP : 使用with rollup关键字，可以得到每个分组及每个分组汇总级别的值
+select vend_id ,count(*) as num_prods
+from products
+group by vend_id with rollup;
+
+
+HAVING ：where过滤行，HAVING过滤分组。where在数据分组钱进行过滤，HAVING在数据分组后进行过滤。
+select vend_id , count(*) as num_prods
+from products
+where prod_price >= 10
+group by vend_id
+having count(*) >= 2;    关键字: HAVING , group by , where
+
+
+select 子句及其顺序
+
+子句              说明                     是否必须使用
+select            要返回的列或者表达式     是
+from              被检索的表               仅在从表选择数据时使用
+where             行级过滤                 否
+group by          分组说明                 仅在按组计算聚集时使用
+having            组级过滤                 否
+order by          输出排序顺序             否
+limit             要检索的行数             否
+
+
+第十四章 嵌套
+
+
+
+
+
+
+

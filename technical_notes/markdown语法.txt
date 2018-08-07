@@ -1,0 +1,92 @@
+标题
+# 一级标题        : command + 1
+###### 六级标题   : command + 6
+
+
+
+
+文本样式
+加粗    ： **加粗**             。快捷键：command + B
+斜体    ： *斜体* 或 _斜体_     。快捷键：command + I
+加粗斜体：***加粗斜体***        。
+删除线  ： ~~删除线~~           。
+底纹    ： '底纹'               。
+注：Markdown中 '*' 和 '_' 等同
+
+快捷键：command + k ：macdown 是底纹；typora 是超链接。
+
+
+
+
+超链接
+行内式：[ ] 里写连接文字，( ) 里写连接地址，括号中可以为连接制定title属性使用双引号（""）
+例：[百度](www.baidu.com)
+
+
+参考式
+[连接文字][连接标记]
+[连接标记]:url（链接地址及属性）
+或
+[链接文字][]
+[链接文字]:url
+
+例：
+我经常去的几个网站[Google][1]、[Leanote][2]以及[自己的博客][3]
+[Leanote 笔记][2]是一个不错的[网站][]。
+[1]:http://www.google.com "Google"
+[2]:http://www.leanote.com "Leanote"
+[3]:http://http://blog.leanote.com/freewalk "梵居闹市"  (注：双引号前有空格）
+[网站]:http://http://blog.leanote.com/freewalk
+
+
+自动链接: < url 或 邮箱地址>
+<http://www.baidu.com>
+<address@example.com>
+
+
+
+
+锚点：网页内的超链接(好像没用）
+注：只支持在标题后插入锚点
+## 0. 目录{#index}
+跳转到[目录](#index)
+
+
+
+
+列表
+无序列表 ： 使用 * 、+ 、- 表示无序列表，符号后需添加空格
+有序列表 ： 使用数字接着一个英文句号。(例：1.)
+引用: " > " 可多层嵌套
+
+
+
+
+插入图片
+![图片Alt](url "图片title")
+或
+![图片Alt][标记]
+[标记]:url
+
+
+
+
+注脚
+[^注脚名字]
+[^注脚名字]:注释内容
+例:
+使用 Markdown[^1]可以效率的书写文档, 直接转换成 HTML[^2], 你可以使用 Leanote[^Le] 编辑器进行书写。
+[^1]:Markdown是一种纯文本标记语言
+
+[^2]:HyperText Markup Language 超文本标记语言
+
+[^Le]:开源笔记平台，支持Markdown和笔记直接发为博文
+注：需要用空行隔开每个注脚。
+
+
+
+
+代码框
+被两对 ' ``` ' 包裹
+代码前加四个空格
+代码前加一个tab
